@@ -2,12 +2,11 @@
 
 import {
   LayoutDashboard,
-  ShoppingBag,
-  Users,
-  Star,
-  BarChart3,
-  Settings,
+  Package,
+  User,
+  ShoppingCart,
   LogOut,
+  Tag,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -18,27 +17,25 @@ export default function AdminLayout({ children }) {
 
   const menu = [
     { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
-    { name: "Products", href: "/admin/products", icon: ShoppingBag },
-    { name: "Orders", href: "/admin/orders", icon: BarChart3 },
-    { name: "Users", href: "/admin/users", icon: Users },
-    { name: "Reviews", href: "/admin/reviews", icon: Star },
-    { name: "Reports", href: "/admin/reports", icon: BarChart3 },
-    { name: "Settings", href: "/admin/settings", icon: Settings },
+    { name: "Products", href: "/admin/product", icon: Package },
+    { name: "Categories", href: "/admin/categories", icon: Tag },
+    { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
+    { name: "Customers", href: "/admin/users", icon: User },
   ];
 
   return (
-    <div className="flex min-h-screen bg-zinc-100">
-      
+    <div className="flex min-h-screen bg-salaga-bg font-sans">
+
       {/* SIDEBAR */}
-      <aside className="w-64 bg-white border-r shadow-sm hidden md:flex flex-col">
-        <div className="p-6 border-b">
-          <h1 className="text-xl font-bold tracking-tight">
-            House of Salaga<span className="text-primary"> Admin</span>
+      <aside className="w-64 bg-salaga-sidebar border-r border-gray-800 shadow-sm hidden md:flex flex-col">
+        <div className="h-20 flex items-center px-6">
+          <h1 className="text-xl font-bold tracking-tight text-salaga-yellow">
+            House of Salaga
           </h1>
         </div>
 
         {/* Menu */}
-        <nav className="flex-1 p-4 space-y-1">
+        <nav className="flex-1 px-4 space-y-2">
           {menu.map((item, index) => {
             const Icon = item.icon;
             const active = pathname === item.href;
@@ -47,47 +44,24 @@ export default function AdminLayout({ children }) {
               <Link
                 key={index}
                 href={item.href}
-                className={`flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-medium
-                 transition-all 
-                ${
-                  active
-                    ? "bg-primary text-white shadow"
-                    : "text-zinc-700 hover:bg-zinc-200"
-                }`}
+                className={`flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-all 
+                ${active
+                    ? "bg-salaga-sidebar-active text-white"
+                    : "text-salaga-text-gray hover:bg-salaga-sidebar-active/50 hover:text-white"
+                  }`}
               >
-                <Icon size={18} />
+                <Icon size={20} className="mr-3" />
                 {item.name}
               </Link>
             );
           })}
         </nav>
-
-        <div className="p-4 border-t">
-          <Button
-            variant="outline"
-            className="w-full flex items-center gap-2"
-          >
-            <LogOut size={18} />
-            Logout
-          </Button>
-        </div>
       </aside>
 
       {/* MAIN CONTENT */}
-      <main className="flex-1">
-        
-        {/* Top Bar */}
-        <header className="w-full bg-white border-b shadow-sm p-4 flex justify-between items-center sticky top-0 z-40">
-          <h2 className="text-lg font-semibold">Admin Dashboard</h2>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-zinc-600">
-              Welcome, Admin
-            </span>
-          </div>
-        </header>
-
+      <main className="flex-1 overflow-y-auto">
         {/* Page content here */}
-        <div className="p-6">{children}</div>
+        <div className="p-0">{children}</div>
       </main>
     </div>
   );
